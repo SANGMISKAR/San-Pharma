@@ -1,0 +1,121 @@
+<?php
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    // Database configuration
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "online_pharmacy";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Fetch product details
+    $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
+    $stmt->close();
+    
+    // Check if form is submitted for updating the product
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $name = $_POST['name'];
+        $brand = $_POST['brand'];
+        $availability = $_POST['availability'];
+    $old_price = $_POST['old_price'];
+    $new_price = $_POST['new_price'];
+    $description = $_POST['description'];
+    $ingredients = $_POST['ingredients'];
+    $directions = $_POST['directions'];
+    $warnings = $_POST['warnings'];
+    $manufacturer = $_POST['manufacturer'];
+    $expiry_date = $_POST['expiry_date'];
+    $package_quantity = $_POST['package_quantity'];
+    $sale_tag = $_POST['sale_tag'];
+    $category_id = $_POST['category_id'];
+        
+        // Update query
+        $stmt = $conn->prepare("UPDATE products SET name = ?, brand = ?, availability = ?, old_price = ?, new_price = ?, description = ?, ingredients = ?, directions = ?, warnings = ?, manufacturer = ?, expiry_date = ?, package_quantity = ?, sale_tag = ?, category_id = ?, image_url = ? WHERE id = ?");
+        $stmt->bind_param("ssssssssssssissi", $name, $brand, $availability, $old_price, $new_price, $description, $ingredients, $directions, $warnings, $manufacturer, $expiry_date, $package_quantity, $sale_tag, $category_id, $filePath, $id);
+    
+        
+        if ($stmt->execute()) {
+            echo "<script>alert('Product updated successfully!'); window.location.href='admin.php';</script>";
+        } else {
+            echo "<p>Error: " . $stmt->error . "</p>";
+        }
+        
+        $stmt->close();
+    }
+
+    $conn->close();
+}
+?>
+
+<!-- HTML form to edit the product -->
+<form action="edit_product.php?id=<?php echo $id; ?>" method="post" enctype="multipart/form-data">
+    <label for="name">Product Name:</label>
+    <input type="text" id="name" name="name" value="<?php echo $product['name']; ?>" required>
+
+    <label for="brand">Brand:</label>
+    <input type="text" id="brand" name="brand" value="<?php echo $product['brand']; ?>" required>
+    
+    <label for="availability">Availability:</label>
+    <input type="text" id="availability" name="availability" value="<?php echo htmlspecialchars($product['availability']); ?>" required>
+
+    <label for="old_price">Old Price:</label>
+    <input type="text" id="old_price" name="old_price" value="<?php echo htmlspecialchars($product['old_price']); ?>">
+
+    <label for="new_price">New Price:</label>
+    <input type="text" id="new_price" name="new_price" value="<?php echo htmlspecialchars($product['new_price']); ?>" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required><?php echo htmlspecialchars($product['description']); ?></textarea>
+
+    <label for="ingredients">Ingredients:</label>
+    <textarea id="ingredients" name="ingredients"><?php echo htmlspecialchars($product['ingredients']); ?></textarea>
+
+    <label for="directions">Directions:</label>
+    <textarea id="directions" name="directions"><?php echo htmlspecialchars($product['directions']); ?></textarea>
+
+    <label for="warnings">Warnings:</label>
+    <textarea id="warnings" name="warnings"><?php echo htmlspecialchars($product['warnings']); ?></textarea>
+
+    <label for="manufacturer">Manufacturer:</label>
+    <input type="text" id="manufacturer" name="manufacturer" value="<?php echo htmlspecialchars($product['manufacturer']); ?>">
+
+    <label for="expiry_date">Expiry Date:</label>
+    <input type="date" id="expiry_date" name="expiry_date" value="<?php echo htmlspecialchars($product['expiry_date']); ?>">
+
+    <label for="package_quantity">Package Quantity:</label>
+    <input type="text" id="package_quantity" name="package_quantity" value="<?php echo htmlspecialchars($product['package_quantity']); ?>">
+
+    <label for="sale_tag">Sale Tag:</label>
+    <input type="text" id="sale_tag" name="sale_tag" value="<?php echo htmlspecialchars($product['sale_tag']); ?>">
+
+    <label for="category">Category:</label>
+    <select id="category" name="category_id" required>
+        <option value="">Select Category</option>
+        <?php
+        // Populate dropdown with categories
+        if ($categories_result->num_rows > 0) {
+            while ($row = $categories_result->fetch_assoc()) {
+                $selected = ($row['id'] == $product['category_id']) ? 'selected' : '';
+                echo "<option value='" . $row['id'] . "' $selected>" . $row['name'] . "</option>";
+            }
+        }
+        ?>
+    </select>
+
+    <label for="image">Upload New Product Image:</label>
+    <input type="file" id="image" name="image">
+
+    <input type="submit" value="Update Product">
+</form>

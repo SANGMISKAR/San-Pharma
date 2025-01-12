@@ -1,0 +1,89 @@
+<?php
+session_start();
+
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "online_pharmacy";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Ensure user is logged in and has a user ID in the session
+if (!isset($_SESSION['user_id'])) {
+    die("User not logged in.");
+}
+$user_id = $_SESSION['user_id'];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['quantity'])) {
+    $product_id = intval($_POST['product_id']);
+    $quantity = intval($_POST['quantity']);
+    $product_name = $_POST['product_name'];
+    $product_image = $_POST['product_image'];
+
+    // Check if the cart table exists, if not, create it
+    $createTableSQL = "CREATE TABLE IF NOT EXISTS cart (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        product_id INT NOT NULL,
+        quantity INT NOT NULL,
+        added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (product_id) REFERENCES products(id)
+    )";
+    $conn->query($createTableSQL);
+
+    // Check if the product already exists in the user's cart
+    $sql = "SELECT id FROM cart WHERE user_id = ? AND product_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $user_id, $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Product already in cart, update quantity
+        $sql = "UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iii", $quantity, $user_id, $product_id);
+        $stmt->execute();
+    } else {
+        // Product not in cart, insert new entry
+        $sql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iii", $user_id, $product_id, $quantity);
+        $stmt->execute();
+    }
+
+    $stmt->close();
+    $conn->close();
+
+    // Redirect to cart page
+    header('Location: view_cart.php');
+    exit();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Cart</title>
+</head>
+<body>
+    <h1>Add Product to Cart</h1>
+    <form action="user_cart.php" method="post">
+        <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($_GET['product_id']); ?>">
+        <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($_GET['product_name']); ?>">
+        <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($_GET['product_image']); ?>">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1">
+        <button type="submit">Add to Cart</button>
+    </form>
+</body>
+</html>

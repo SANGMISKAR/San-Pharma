@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.product-page-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+}
+ 
+.product-details {
+    width: 75%;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.product-image {
+    width: 50%;
+    position: relative;
+    margin-right: 20px; /* Add spacing between image and info */
+}
+
+.product-image img {
+    width: 80%;
+    height: 80%;
+    display: block;
+}
+
+.sale-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.product-info {
+    width: 50%;
+}
+
+.product-info h1 {
+    margin-bottom: 20px;
+}
+
+.product-info p {
+    margin: 10px 0;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+}
+
+.new-price {
+    color: #ff0000;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.add-to-cart-btn {
+    background-color: #084B83;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart-btn:hover {
+    background-color: #42BFDD;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.additional-options {
+    margin-top: 20px;
+}
+
+.additional-options a {
+    display: inline-block;
+    margin-right: 20px;
+    color: #084B83;
+    text-decoration: none;
+}
+
+.additional-options a:hover {
+    text-decoration: underline;
+}
+/*  
+*/
+/* Quantity Input Styles */
+.product-info input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    margin-left: 10px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.product-info .price-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.product-info .new-price {
+    color: #ff0000;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.product-info .total-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #084B83;
+}
+
+.product-info .old-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+}
+
+.product-description {
+    margin-top: 20px;
+}
+
+.product-description h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #084B83;
+}
+
+.product-description p {
+    line-height: 1.6;
+    color: #333;
+}

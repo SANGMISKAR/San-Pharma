@@ -1,0 +1,171 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F0F6F6;
+    scroll-behavior: smooth;
+}
+
+header {
+    margin-bottom: 4em;
+}
+
+nav {
+    background-color: #084B83;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    height: 40px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 3%;
+}
+
+.logo img {
+    height: 45px;
+    border-radius: 25px 5px;
+    padding: 5px;
+    background-color: #ddd;
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    padding-right: 38px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0000006b;
+}
+
+h2 {
+    padding-left: 0;
+    text-align: start;
+    color: #084B83;
+}
+
+.content {
+    margin-bottom: 18px;
+}
+
+.content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #084B83;
+}
+
+.content input, .content textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #ddddddfe;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.register_button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register_button button {
+    padding: 10px 20px;
+    font-size: 17px;
+    background-color: #42BFDD;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.register_button button a {
+    text-decoration: none;
+    color: white;
+}
+
+.register_button button:hover {
+    background-color: #084B83;
+    transform: scale(1.08, 1.08);
+}
+
+.register-link {
+    margin-top: 1%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.register-link a {
+    color: forestgreen;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+    background-color: #dddddd6a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .content input {
+        font-size: 14px;
+    }
+    
+    .register_button button, .alternative-actions button {
+        font-size: 14px;
+    }
+    
+    .register-link a {
+        font-size: 14px;
+    }
+}
+
+/* Alternative Actions (Commented Out) */
+/*
+.alternative-actions {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.alternative-actions img {
+    height: 20px;
+    width: 20px;
+    margin-right: 8px;
+}
+
+.alternative-actions p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.alternative-actions button {
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.google-login {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.microsoft-login {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.google-login:hover, .microsoft-login:hover {
+    opacity: 0.9;
+    transform: scale(0.9, 0.9);
+}
+*/

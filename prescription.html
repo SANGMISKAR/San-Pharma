@@ -1,0 +1,112 @@
+<!-- <!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="prescription.css">
+    <title>Upload Prescription</title>
+</head>
+<body>
+    <form action="index.html">
+        <div class="container">
+            <div class="header-section">
+                <div class="left_logo">
+                    <img src="Images/san-pharm-favicon-color.webp" alt="Medicine logo">
+                </div>
+                <h3>Upload Prescription</h3>
+            </div>
+            <div class="content">
+                <label for="patcient_name">Patient Name</label>
+                <input type="text" name="patcient_name" id="patcient_name" required>
+            </div>
+            <div class="content">
+                <label for="date">Date of prescription</label>
+                <input type="date" name="date" id="date" required>
+            </div>
+            <div class="content">
+                <label for="doctor_Name">Doctor Name</label>
+                <input type="text" name="doctor_Name" id="doctor_Name" required>
+            </div>
+            <div class="content">
+                <label for="hospital_name">Hospital Name</label>
+                <input type="text" name="hospital_name" id="hospital_name" required>
+            </div>
+            <div class="content file-upload">
+                <label for="file">Upload Prescription</label>
+                <label class="custom-file-upload">
+                    <input type="file" id="file" name="file" onchange="displayFileName()" required>
+                    Choose File
+                </label>
+                <div class="file-name" id="file-name">No file chosen</div>
+            </div>
+            <div class="content">
+                <button type="submit">Upload</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function displayFileName() {
+            var input = document.getElementById('file');
+            var fileName = input.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="prescription.css">
+    <title>Upload Prescription</title>
+</head>
+<body>
+    <form action="index.html">
+        <div class="container">
+            <div class="header-section">
+                <div class="left_logo">
+                    <img src="Images/san-pharm-favicon-color.webp" alt="Medicine logo">
+                </div>
+                <h3>Upload Prescription</h3>
+            </div>
+            <div class="content">
+                <label for="patcient_name">Patient Name</label>
+                <input type="text" name="patcient_name" id="patcient_name" required>
+            </div>
+            <div class="content">
+                <label for="date">Date of prescription</label>
+                <input type="date" name="date" id="date" required>
+            </div>
+            <div class="content">
+                <label for="doctor_Name">Doctor Name</label>
+                <input type="text" name="doctor_Name" id="doctor_Name" required>
+            </div>
+            <div class="content">
+                <label for="hospital_name">Hospital Name</label>
+                <input type="text" name="hospital_name" id="hospital_name" required>
+            </div>
+            <div class="content file-upload">
+                <label for="file">Upload Prescription</label>
+                <label class="custom-file-upload">
+                    <input type="file" id="file" name="file" onchange="displayFileName()" required>
+                    Choose File
+                </label>
+                <div class="file-name" id="file-name">No file chosen</div>
+            </div>
+            <div class="content">
+                <button type="submit">Upload</button>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        function displayFileName() {
+            var input = document.getElementById('file');
+            var fileName = input.files[0].name;
+            document.getElementById('file-name').textContent = fileName;
+        }
+    </script>
+</body>
+</html>

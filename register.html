@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="resgister.css">
+    <script>
+        function validateForm() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+</head>
+<body>
+    
+    <header>
+        <nav id="navbar">
+            <!-- Navigation bar code here -->
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="Images/san-pharm-logo-transparent.png" alt="PharmEasy Logo">
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="container">
+            <h2>Registration Form</h2>
+            <form action="registration.php" method="post" onsubmit="return validateForm()">
+                <div class="content">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your name" pattern="[A-Za-z\s]+" title="Name should only contain alphabetical characters">
+                </div>
+                <div class="content">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="content">
+                    <label for="contact">Contact Number:</label>
+                    <input type="tel" id="contact" name="contact" required placeholder="Enter your contact number" pattern="\d{10}" title="Contact number must be exactly 10 digits">
+                </div>
+                <div class="content">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <div class="content">
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+                </div>
+                <div class="register_button">
+                    <button type="submit">Register</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Footer code here -->
+    </footer>
+</body>
+</html>

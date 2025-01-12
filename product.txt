@@ -1,0 +1,241 @@
+{
+  "products": [
+    {
+      "id": "MED1",
+      "name": "Fusion Allergy Nasal Spray",
+      "brand": "Fusion",
+      "category": "Allergy Relief",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹250.00",
+        "new_price": "₹180.00"
+      },
+      "image_url": "product images/Fusion-nasal-spray-2023.webp",
+      "description": [
+        "Fusion allergy nasal spray provides quick relief from nasal allergy symptoms.",
+        "Effective for sneezing, runny nose, and nasal congestion."
+      ],
+      "ingredients": [
+        "Fluticasone Propionate",
+        "Propylene Glycol"
+      ],
+      "directions": [
+        "Use 1-2 sprays in each nostril once or twice daily."
+      ],
+      "warnings": [
+        "Do not use if you have a nasal infection.",
+        "Consult your doctor before use if you have any pre-existing conditions."
+      ],
+      "manufacturer": "Fusion Pharmaceuticals",
+      "expiry_date": "2024-12-31",
+      "package_quantity": "20ml"
+    },
+    {
+      "id": "MED2",
+      "name": "Allevia 120mg Tablets",
+      "brand": "Allevia",
+      "category": "Allergy Relief",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹250.00",
+        "new_price": "₹150.00"
+      },
+      "image_url": "product images/allevia tablet.webp",
+      "description": [
+        "Allevia 120mg tablets are used to relieve symptoms of seasonal allergies.",
+        "Effective for sneezing, runny nose, and itchy eyes."
+      ],
+      "ingredients": [
+        "Loratadine"
+      ],
+      "directions": [
+        "Take one tablet daily with or without food."
+      ],
+      "warnings": [
+        "May cause drowsiness in some individuals.",
+        "Consult your doctor before use if pregnant or breastfeeding."
+      ],
+      "manufacturer": "Allevia Pharmaceuticals",
+      "expiry_date": "2025-02-28",
+      "package_quantity": "10 Tablets"
+    },
+    {
+      "id": "MED3",
+      "name": "Piriteze Allergy Tablets",
+      "brand": "Piriteze",
+      "category": "Allergy Relief",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹220.00",
+        "new_price": "₹140.00"
+      },
+      "image_url": "product images/pritieze tablet.webp",
+      "description": [
+        "Piriteze allergy tablets offer effective relief from hay fever and other allergic conditions.",
+        "Reduces symptoms like sneezing, runny nose, and itchy eyes."
+      ],
+      "ingredients": [
+        "Cetirizine Hydrochloride"
+      ],
+      "directions": [
+        "Take one tablet daily, preferably in the evening."
+      ],
+      "warnings": [
+        "May cause drowsiness.",
+        "Avoid alcohol while taking this medication."
+      ],
+      "manufacturer": "Piriteze Ltd.",
+      "expiry_date": "2025-04-30",
+      "package_quantity": "10 Tablets"
+    },
+    {
+      "id": "MED4",
+      "name": "TreatHay 120mg Tablets",
+      "brand": "TreatHay",
+      "category": "Allergy Relief",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹230.00",
+        "new_price": "₹160.00"
+      },
+      "image_url": "product images/Treathay-Fexofenadine-120mg.webp",
+      "description": [
+        "TreatHay 120mg fexofenadine hydrochloride tablets provide relief from allergic rhinitis and chronic urticaria.",
+        "Helps alleviate sneezing, runny nose, and itching."
+      ],
+      "ingredients": [
+        "Fexofenadine Hydrochloride"
+      ],
+      "directions": [
+        "Take one tablet daily with water."
+      ],
+      "warnings": [
+        "Do not use if you have kidney problems.",
+        "Consult your doctor if you are pregnant or breastfeeding."
+      ],
+      "manufacturer": "TreatHay Pharmaceuticals",
+      "expiry_date": "2025-08-15",
+      "package_quantity": "10 Tablets"
+    },
+    {
+      "id": "MED5",
+      "name": "Vicks VapoRub",
+      "brand": "Vicks",
+      "category": "Health Care",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹150.00",
+        "new_price": "₹100.00"
+      },
+      "image_url": "product images/Vicks.webp",
+      "description": [
+        "Vicks VapoRub provides relief from cough and muscular pain.",
+        "Contains menthol and eucalyptus oil for soothing action."
+      ],
+      "ingredients": [
+        "Menthol",
+        "Camphor",
+        "Eucalyptus Oil"
+      ],
+      "directions": [
+        "Apply to the chest and throat or sore muscles as needed."
+      ],
+      "warnings": [
+        "For external use only.",
+        "Avoid contact with eyes and mucous membranes."
+      ],
+      "manufacturer": "Vicks Inc.",
+      "expiry_date": "2025-09-30",
+      "package_quantity": "50g"
+    },
+    {
+      "id": "MED6",
+      "name": "Paracetamol 500mg Tablets",
+      "brand": "Parace",
+      "category": "Health Care",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹100.00",
+        "new_price": "₹60.00"
+      },
+      "image_url": "product images/pracimol.webp",
+      "description": [
+        "Paracetamol 500mg tablets are used to relieve mild to moderate pain and reduce fever.",
+        "Commonly used for headaches, muscle aches, and minor arthritis pain."
+      ],
+      "ingredients": [
+        "Paracetamol"
+      ],
+      "directions": [
+        "Take 1-2 tablets every 4-6 hours as needed. Do not exceed 8 tablets in 24 hours."
+      ],
+      "warnings": [
+        "Do not exceed the recommended dose.",
+        "Consult a doctor if you have liver or kidney disease."
+      ],
+      "manufacturer": "Parace Ltd.",
+      "expiry_date": "2025-03-31",
+      "package_quantity": "20 Tablets"
+    },
+    {
+      "id": "MED7",
+      "name": "Dolo 650mg Tablets",
+      "brand": "Dolo",
+      "category": "Health Care",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹180.00",
+        "new_price": "₹100.00"
+      },
+      "image_url": "product images/DOL0010_1.webp",
+      "description": [
+        "Dolo 650mg tablets provide relief from fever and pain.",
+        "Effective for headaches, back pain, and muscle pain."
+      ],
+      "ingredients": [
+        "Paracetamol"
+      ],
+      "directions": [
+        "Take 1-2 tablets every 4-6 hours as needed. Do not exceed 8 tablets in 24 hours."
+      ],
+      "warnings": [
+        "Consult your doctor before use if you have liver problems.",
+        "Keep out of reach of children."
+      ],
+      "manufacturer": "Dolo Pharmaceuticals",
+      "expiry_date": "2025-06-30",
+      "package_quantity": "20 Tablets"
+    },
+    {
+      "id": "MED8",
+      "name": "Volini Pain Relief Spray",
+      "brand": "Volini",
+      "category": "Health Care",
+      "availability": "In Stock",
+      "price": {
+        "old_price": "₹250.00",
+        "new_price": "₹170.00"
+      },
+      "image_url": "product images/volini-pain-relief-spray-bottle.webp",
+      "description": [
+        "Volini pain relief spray offers quick relief from pain and inflammation.",
+        "Suitable for use on sore muscles, joints, and back pain."
+      ],
+      "ingredients": [
+        "Diclofenac",
+        "Menthol",
+        "Methyl Salicylate"
+      ],
+      "directions": [
+        "Spray onto the affected area 2-3 times a day."
+      ],
+      "warnings": [
+        "Avoid contact with eyes and broken skin.",
+        "Consult a doctor if symptoms persist."
+      ],
+      "manufacturer": "Volini Ltd.",
+      "expiry_date": "2025-08-31",
+      "package_quantity": "100ml"
+    }
+  ]
+}

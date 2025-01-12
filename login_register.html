@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F0F6F6;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            margin-bottom: 4em;
+        }
+
+        nav {
+            background-color: #084B83;
+            border-bottom: 1px solid #ddd;
+            padding: 20px;
+            height: 40px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            padding-left: 3%;
+        }
+
+        .logo img {
+            height: 45px;
+            border-radius: 25px 5px;
+            padding: 5px;
+            background-color: #ddd;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #0000006b;
+        }
+
+        h2 {
+            padding-left: 0;
+            text-align: start;
+            color: #084B83;
+        }
+
+        .component, .content {
+            margin-bottom: 18px;
+        }
+
+        .component input, .content input {
+            width: 95%;
+            padding: 10px;
+            border: 1.5px solid #ddddddfe;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .login_button, .register_button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login_button button, .register_button button {
+            padding: 10px 20px;
+            font-size: 17px;
+            background-color: #42BFDD;
+            color: #ffffff;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .login_button button:hover, .register_button button:hover {
+            background-color: #084B83;
+            transform: scale(1.08, 1.08);
+        }
+
+        .alternative-login, .register-link {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .alternative-login img {
+            height: 20px;
+            width: 20px;
+            margin-right: 8px;
+        }
+
+        .alternative-login button {
+            align-items: center;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 6px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .alternative-login button:hover {
+            opacity: 0.9;
+            transform: scale(0.9, 0.9);
+        }
+
+        .register-link a {
+            color: forestgreen;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+            background-color: #dddddd6a;
+        }
+
+        #register-section {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .component input, .content input {
+                font-size: 14px;
+            }
+
+            .login_button button, .register_button button, .alternative-login button {
+                font-size: 14px;
+            }
+
+            .register-link a {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            return true;
+        }
+
+        function showRegistrationForm() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('register-section').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        function handleFormSubmission(event) {
+            event.preventDefault();
+
+            var form = event.target;
+            var formData = new FormData(form);
+
+            fetch('auth.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.success);
+                    if (form.querySelector('input[name="action"]').value === 'register') {
+                        showLoginForm();
+                    } else if (form.querySelector('input[name="action"]').value === 'login') {
+                        // Check if redirected to admin panel
+                        if (data.isAdmin) {
+                            window.location.href = 'admin_panel.html'; // Redirect to admin panel
+                        } else {
+                            window.location.href = 'index.php'; // Redirect to user index page
+                        }
+                    }
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+        }
+
+        window.onload = function() {
+            document.querySelector('#login-section form').addEventListener('submit', handleFormSubmission);
+            document.querySelector('#register-section form').addEventListener('submit', handleFormSubmission);
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="Images/san-pharm-logo-transparent.png" alt="PharmEasy Logo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- User Login Section -->
+    <section class="container" id="login-section">
+        <h2>Login</h2>
+        <form>
+            <input type="hidden" name="action" value="login">
+            <div class="component">
+                <input type="email" name="email" placeholder="abc@gmail.com" required>
+            </div>
+            <div class="component">
+                <input type="password" name="password" required placeholder="Password">
+            </div>
+            <div class="login_button">
+                <button type="submit">Login</button>
+            </div>
+            <div class="alternative-login">
+                <p>or</p>
+                <button class="google-login">
+                    <img src="Images/google_icon.png" alt="Google Icon"> Login with Google
+                </button>
+                <button class="microsoft-login">
+                    <img src="Images/microsoft_icon.png" alt="Microsoft Icon"> Login with Microsoft
+                </button>
+            </div>
+            <div class="register-link">
+                <p>Don't have an account? <a onclick="showRegistrationForm()">Register</a></p>
+            </div>
+        </form>
+    </section>
+
+    <!-- User Registration Section -->
+    <section class="container" id="register-section">
+        <h2>Registration Form</h2>
+        <form onsubmit="return validateForm()">
+            <input type="hidden" name="action" value="register">
+            <div class="content">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your name" pattern="[A-Za-z\s]+" title="Name should only contain alphabetical characters">
+            </div>
+            <div class="content">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="content">
+                <label for="contact">Contact Number:</label>
+                <input type="tel" id="contact" name="contact" required placeholder="Enter your contact number" pattern="\d{10}" title="Contact number must be exactly 10 digits">
+            </div>
+            <div class="content">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <div class="content">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required placeholder="Confirm your password">
+            </div>
+            <div class="register_button">
+                <button type="submit">Register</button>
+            </div>
+            <div class="register-link">
+                <p>Already have an account? <a onclick="showLoginForm()">Login</a></p>
+            </div>
+        </form>
+    </section>
+
+    <footer>
+        <!-- Footer content here -->
+    </footer>
+</body>
+</html>

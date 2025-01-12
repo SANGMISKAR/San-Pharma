@@ -1,0 +1,174 @@
+<?php
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['cart'])) {
+    // Assuming you have an orders table and order_items table
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "online_pharmacy";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Begin transaction
+    $conn->begin_transaction();
+
+    try {
+        // Insert into orders table
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date) VALUES (?, NOW())");
+        // Assuming a session variable 'user_id' for the logged-in user
+        $user_id = $_SESSION['user_id'];
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $order_id = $stmt->insert_id;
+        $stmt->close();
+
+        // Insert order items into order_items table
+        $stmt = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+        
+        foreach ($_SESSION['cart'] as $product_id => $product) {
+            // Retrieve the price of the product
+            $stmt->bind_param("iiid", $order_id, $product_id['id'], $product['quantity'], $product_price);
+            $product_price = getProductPrice($product_id, $conn); // Function to retrieve product price
+            $stmt->execute();
+        }
+        $stmt->close();
+
+        // Commit transaction
+        $conn->commit();
+
+        // Clear cart
+        unset($_SESSION['cart']);
+        
+    } catch (Exception $e) {
+        // Rollback transaction on error
+        $conn->rollback();
+        echo "Failed to place order: " . $e->getMessage();
+    }
+
+    $conn->close();
+
+    // Redirect to receipt page
+    header('Location: receipt.php');
+    exit();
+}
+
+function getProductPrice($product_id, $conn) {
+    $stmt = $conn->prepare("SELECT new_price FROM products WHERE id = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $stmt->bind_result($price);
+    $stmt->fetch();
+    $stmt->close();
+    return $price;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="cart_style.css">
+    <style>
+        /* Checkout Page Styling */
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .checkout-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .checkout-summary {
+            margin-bottom: 20px;
+        }
+        .checkout-summary h1 {
+            margin-bottom: 20px;
+        }
+        .checkout-summary p {
+            margin: 10px 0;
+        }
+        .checkout-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #084B83;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+        }
+        .checkout-button:hover {
+            background-color: #066ba1;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        <form method="POST">
+            <?php
+            if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+                $total = 0;
+
+                foreach ($_SESSION['cart'] as $product_id => $product) {
+                    // Retrieve the price of the product from the database
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "online_pharmacy";
+
+                    // Create connection
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+
+                    // Check connection
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    $stmt = $conn->prepare("SELECT new_price, name FROM products WHERE id = ?");
+                    $stmt->bind_param("i", $product_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $product_data = $result->fetch_assoc();
+                    $stmt->close();
+                    $conn->close();
+
+                    $price = $product_data['new_price'];
+                    $product_name = $product_data['name'];
+                    $subTotal = $price * $product['quantity'];
+                    $total += $subTotal;
+
+                    echo '<p>' . htmlspecialchars($product_name) . ': ₹' . htmlspecialchars($price) . ' x ' . htmlspecialchars($product['quantity']) . ' = ₹' . htmlspecialchars($subTotal) . '</p>';
+                }
+
+                // Calculate the discount (15%)
+                $discount = 0.15 * $total;
+                $final_total = $total - $discount;
+                ?>
+                <p><strong>Total Amount: ₹<?php echo htmlspecialchars($final_total); ?></strong></p>
+                <button type="submit" class="checkout-button">Confirm Order</button>
+                <?php
+            } else {
+                echo "<p>Your cart is empty.</p>";
+            }
+            ?>
+        </form>
+    </div>
+</body>
+</html>

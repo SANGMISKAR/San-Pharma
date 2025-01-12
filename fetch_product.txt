@@ -1,0 +1,37 @@
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "online_pharmacy";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch product by ID from the database
+if (isset($_GET['id'])) {
+    $product_id = intval($_GET['id']); // Retrieve the product ID from the URL
+
+    $sql = "SELECT * FROM products WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $product = $result->fetch_assoc();
+        echo json_encode(['success' => true, 'product' => $product]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Product not found.']);
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'No product selected.']);
+}
+
+$conn->close();
+?>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="product_style.css">
+</head>
+<body>
+    <div class="product-page-container">
+        <aside class="sidebar">
+            <h2>Categories</h2>
+            <ul>
+                <li><a href="#">Medicines</a></li>
+                <li><a href="#">Health Supplements</a></li>
+                <li><a href="#">Personal Care</a></li>
+                <li><a href="#">Medical Devices</a></li>
+                <li><a href="#">Baby Care</a></li>
+                <!-- <li><a href="#">Ayurveda</a></li> -->
+                <li><a href="#">Fitness</a></li>
+            </ul>
+        </aside>
+
+        <div class="product-details">
+            <div class="product-image">
+                <img src="Images/add-cart.png" alt="Pain Relief Tablet">
+                <span class="sale-tag">Sale</span>
+            </div>
+            <div class="product-info">
+                <h1>Pain Relief Tablet</h1>
+                <p><strong>Brand:</strong> Omnis</p>
+                <p><strong>Product Code:</strong> MED123</p>
+                <p><strong>Availability:</strong> In Stock</p>
+                <div class="price-section">
+                    <p><strong>Price:</strong> <span class="old-price">₹250.00</span> <span class="new-price">₹95.00</span></p>
+                    <p class="total-price">₹95.00</p>
+                </div>
+                <form action="cart.php" method="post">
+                    <label for="quantity">Qty:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1">
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                </form>
+
+                <section class="description">
+                    <h2>Description</h2>
+                    <p>Pain Relief Tablet helps to alleviate minor aches and pains.</p>
+                    <p>Effective for headaches, muscle pain, and joint discomfort.</p>
+                    <p>Contains active ingredients that work quickly for fast relief.</p>
+                    <p>Please consult your physician if you have any medical conditions or are taking other medications.</p>
+                    
+                    <h3>Ingredients:</h3>
+                    <ul>
+                        <li>Acetaminophen</li>
+                        <li>Caffeine</li>
+                        <li>Lactose</li>
+                    </ul>
+
+                    <h3>Directions:</h3>
+                    <p>Take 1-2 tablets every 4-6 hours as needed. Do not exceed 6 tablets in 24 hours.</p>
+
+                    <h3>Warnings:</h3>
+                    <ul>
+                        <li>Do not use if allergic to any of the ingredients.</li>
+                        <li>Consult your doctor before use if pregnant or breastfeeding.</li>
+                        <li>Keep out of reach of children.</li>
+                    </ul>
+
+                    <p><strong>Manufacturer:</strong> Omnis Pharmaceuticals</p>
+                    <p><strong>Expiry Date:</strong> 2025-12-31</p>
+                    <p><strong>Package Quantity:</strong> 30 Tablets</p>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        // JavaScript to update the price based on quantity
+        document.addEventListener('DOMContentLoaded', function () {
+            const quantityInput = document.getElementById('quantity');
+            const unitPrice = 95.00; // Base price for one unit
+            const totalPriceElement = document.querySelector('.total-price');
+
+            function updatePrice() {
+                const quantity = parseInt(quantityInput.value);
+                const totalPrice = unitPrice * quantity;
+                totalPriceElement.textContent = `₹${totalPrice.toFixed(2)}`;
+            }
+
+            // Initial price update
+            updatePrice();
+
+            // Update price on quantity change
+            quantityInput.addEventListener('input', updatePrice);
+        });
+    </script>
+</body>
+</html>

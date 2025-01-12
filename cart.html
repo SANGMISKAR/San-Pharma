@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="cart_style.css">
+</head>
+<body>
+    <h2 class="cart-title">My Cart</h2>
+    <div class="cart-container">
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be appended here -->
+        </div>
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <p class="subtotal">Subtotal: ₹<span id="subtotal">0.00</span></p>
+            <p class="taxes">Taxes (10%): ₹<span id="taxes">0.00</span></p>
+            <p class="total">Total: ₹<span id="total">0.00</span></p>
+            <button class="checkout-button" onclick="location.href='checkout.html'">Checkout</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const jsonFile = 'product.json'; // Path to your JSON file
+            const cartItemsContainer = document.getElementById('cart-items');
+            const subtotalElement = document.getElementById('subtotal');
+            const taxesElement = document.getElementById('taxes');
+            const totalElement = document.getElementById('total');
+
+            function updateOrderSummary() {
+                // Calculate subtotal, taxes, and total
+                let subtotal = 0;
+                const cartItems = document.querySelectorAll('.cart-item');
+                cartItems.forEach(item => {
+                    const price = parseFloat(item.querySelector('.product-price').textContent.replace('₹', ''));
+                    const quantity = parseInt(item.querySelector('.quantity-input').value);
+                    subtotal += price * quantity;
+                });
+                const taxes = subtotal * 0.10;
+                const total = subtotal + taxes;
+
+                subtotalElement.textContent = subtotal.toFixed(2);
+                taxesElement.textContent = taxes.toFixed(2);
+                totalElement.textContent = total.toFixed(2);
+            }
+
+            function addItemToCart(product) {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.innerHTML = `
+                    <img src="${product.image_url}" alt="Product Image" class="product-image">
+                    <div class="product-details">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description.join('<br>')}</p>
+                        <div class="quantity-controls">
+                            <button class="decrease-quantity">-</button>
+                            <input type="number" class="quantity-input" value="${quantity}" min="1">
+                            <button class="increase-quantity">+</button>
+                        </div>
+                        <p class="product-price">${product.price.new_price}</p>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                updateOrderSummary();
+            }
+
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            const productId = getQueryParam('product_id');
+            const quantity = getQueryParam('quantity') || 1;
+
+            fetch(jsonFile)
+                .then(response => response.json())
+                .then(data => {
+                    const product = data.products.find(p => p.id === productId);
+                    if (product) {
+                        addItemToCart(product);
+                    } else {
+                        console.error('Product not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the JSON data:', error);
+                });
+        });
+    </script>
+</body>
+</html>

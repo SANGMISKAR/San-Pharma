@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="product_style.css">
+</head>
+<body>
+    <div class="product-page-container">
+        <aside class="sidebar">
+            <h2>Categories</h2>
+            <ul>
+                <li><a href="#">Medicines</a></li>
+                <li><a href="#">Health Supplements</a></li>
+                <li><a href="#">Personal Care</a></li>
+                <li><a href="#">Medical Devices</a></li>
+                <li><a href="#">Baby Care</a></li>
+                <!-- <li><a href="#">Ayurveda</a></li> -->
+                <li><a href="#">Fitness</a></li>
+            </ul>
+        </aside>
+
+        <div class="product-details">
+            <div class="product-image">
+                <img id="product-image" src="" alt="Product Image">
+                <span id="sale-tag" class="sale-tag">Sale</span>
+            </div>
+            <div class="product-info">
+                <h1 id="product-name"></h1>
+                <p><strong>Brand:</strong> <span id="product-brand"></span></p>
+                <p><strong>Product Code:</strong> <span id="product-code"></span></p>
+                <p><strong>Availability:</strong> <span id="availability"></span></p>
+                <div class="price-section">
+                    <p><strong>Price:</strong> <span id="old-price" class="old-price"></span> <span id="new-price" class="new-price"></span></p>
+                    <p id="total-price" class="total-price"></p>
+                </div>
+                <form action="cart.html" method="get">
+                     <input type="hidden" id="product-id" name="product_id">
+                     <label for="quantity">Qty:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1">
+                    <button type="submit" class="add-to-cart-btn" >Add to Cart</button>
+                </form>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const productId = getQueryParam('id');
+                        document.getElementById('product-id').value = productId;
+                    });
+                
+                    function getQueryParam(param) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        return urlParams.get(param);
+                    }
+                </script>
+                <!-- <form action="cart.php" method="post">
+                    <label for="quantity">Qty:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1">
+                    <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                </form> -->
+
+                <section class="description">
+                    <h2>Description</h2>
+                    <p id="description"></p>
+                    
+                    <h3>Ingredients:</h3>
+                    <ul id="ingredients"></ul>
+
+                    <h3>Directions:</h3>
+                    <p id="directions"></p>
+
+                    <h3>Warnings:</h3>
+                    <ul id="warnings"></ul>
+
+                    <p><strong>Manufacturer:</strong> <span id="manufacturer"></span></p>
+                    <p><strong>Expiry Date:</strong> <span id="expiry-date"></span></p>
+                    <p><strong>Package Quantity:</strong> <span id="package-quantity"></span></p>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+        // JavaScript to fetch product data from JSON and update the page
+        document.addEventListener('DOMContentLoaded', function () {
+            const jsonFile = 'product_data.json'; // Path to your JSON file
+            const quantityInput = document.getElementById('quantity');
+            const totalPriceElement = document.getElementById('total-price');
+            const unitPriceElement = document.getElementById('new-price');
+
+            function updatePrice() {
+                const quantity = parseInt(quantityInput.value);
+                const unitPrice = parseFloat(unitPriceElement.textContent.replace('₹', ''));
+                const totalPrice = unitPrice * quantity;
+                totalPriceElement.textContent = `₹${totalPrice.toFixed(2)}`;
+            }
+
+            fetch(jsonFile)
+                .then(response => response.json())
+                .then(data => {
+                    // Assuming the JSON data structure is known
+                    document.getElementById('product-image').src = data.image;
+                    document.getElementById('sale-tag').textContent = data.saleTag || '';
+                    document.getElementById('product-name').textContent = data.name;
+                    document.getElementById('product-brand').textContent = data.brand;
+                    document.getElementById('product-code').textContent = data.code;
+                    document.getElementById('availability').textContent = data.availability;
+                    document.getElementById('old-price').textContent = `₹${data.oldPrice}`;
+                    document.getElementById('new-price').textContent = `₹${data.newPrice}`;
+                    document.getElementById('total-price').textContent = `₹${data.newPrice}`;
+                    document.getElementById('description').textContent = data.description;
+                    document.getElementById('ingredients').innerHTML = data.ingredients.map(item => `<li>${item}</li>`).join('');
+                    document.getElementById('directions').textContent = data.directions;
+                    document.getElementById('warnings').innerHTML = data.warnings.map(item => `<li>${item}</li>`).join('');
+                    document.getElementById('manufacturer').textContent = data.manufacturer;
+                    document.getElementById('expiry-date').textContent = data.expiryDate;
+                    document.getElementById('package-quantity').textContent = data.packageQuantity;
+
+                    // Initial price update
+                    updatePrice();
+
+                    // Update price on quantity change
+                    quantityInput.addEventListener('input', updatePrice);
+                })
+                .catch(error => {
+                    console.error('Error fetching the JSON data:', error);
+                });
+        });
+    </script> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const jsonFile = 'product.json'; // Path to your JSON file
+        
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+        
+            const productId = getQueryParam('id'); // Get the product ID from the URL
+            const quantityInput = document.getElementById('quantity');
+            const totalPriceElement = document.getElementById('total-price');
+            const unitPriceElement = document.getElementById('new-price');
+        
+            function updatePrice() {
+                const quantity = parseInt(quantityInput.value);
+                const unitPrice = parseFloat(unitPriceElement.textContent.replace('₹', ''));
+                const totalPrice = unitPrice * quantity;
+                totalPriceElement.textContent = `₹${totalPrice.toFixed(2)}`;
+            }
+        
+            fetch(jsonFile)
+                .then(response => response.json())
+                .then(data => {
+                    const product = data.products.find(p => p.id === productId);
+        
+                    if (product) {
+                        document.getElementById('product-image').src = product.image_url;
+                        // document.getElementById('sale-tag').textContent = product.saleTag || '';
+                        document.getElementById('product-name').textContent = product.name;
+                        document.getElementById('product-brand').textContent = product.brand;
+                        document.getElementById('product-code').textContent = product.id;
+                        document.getElementById('availability').textContent = product.availability;
+                        document.getElementById('old-price').textContent = product.price.old_price;
+                        document.getElementById('new-price').textContent = product.price.new_price;
+                        document.getElementById('total-price').textContent = product.price.new_price;
+                        document.getElementById('description').innerHTML = product.description.join('<br>');
+                        document.getElementById('ingredients').innerHTML = product.ingredients.map(item => `<li>${item}</li>`).join('');
+                        document.getElementById('directions').innerHTML = product.directions.join('<br>');
+                        document.getElementById('warnings').innerHTML = product.warnings.map(item => `<li>${item}</li>`).join('');
+                        document.getElementById('manufacturer').textContent = product.manufacturer;
+                        document.getElementById('expiry-date').textContent = product.expiry_date;
+                        document.getElementById('package-quantity').textContent = product.package_quantity;
+        
+                        // Initial price update
+                        updatePrice();
+        
+                        // Update price on quantity change
+                        quantityInput.addEventListener('input', updatePrice);
+                    } else {
+                        console.error('Product not found.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the JSON data:', error);
+                });
+        });
+        </script>
+        
+</body>
+</html>

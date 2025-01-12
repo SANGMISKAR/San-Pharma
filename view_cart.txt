@@ -1,0 +1,118 @@
+<?php
+session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="cart_style.css">
+    <style>
+        /* Add your CSS styles here */
+        /* Example styles for the cart */
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .cart-item img {
+            max-width: 100px;
+            height: auto;
+        }
+        .cart-item-details {
+            flex: 1;
+            margin-left: 10px;
+        }
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+        }
+        .remove-item {
+            color: red;
+            cursor: pointer;
+        }
+        .checkout-button {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #084B83;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Your Cart</h1>
+
+        <?php
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            $total = 0;
+
+            foreach ($_SESSION['cart'] as $product_id => $product) {
+                // Retrieve the price of the product from the database
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "online_pharmacy";
+
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "SELECT new_price FROM products WHERE id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $product_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $product_data = $result->fetch_assoc();
+                $conn->close();
+
+                $price = $product_data['new_price'];
+                $subtotal = $price * $product['quantity'];
+                $total += $subtotal;
+                ?>
+
+                <div class="cart-item">
+                    <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+                    <div class="cart-item-details">
+                        <h2><?php echo $product['name']; ?></h2>
+                        <p><?php echo $product['description']; ?></p>
+                        <p>Price: ₹<?php echo $price; ?></p>
+                        <p>Quantity: <?php echo $product['quantity']; ?></p>
+                        <p>Subtotal: ₹<?php echo $subtotal; ?></p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <a href="remove_from_cart.php?id=<?php echo $product_id; ?>" class="remove-item">Remove</a>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+
+            <div class="cart-total">
+                <h2>Total: ₹<?php echo $total; ?></h2>
+                <a href="checkout.php" class="checkout-button">Proceed to Checkout</a>
+            </div>
+            <?php
+        } else {
+            echo "<p>Your cart is empty.</p>";
+        }
+        ?>
+    </div>
+</body>
+</html>

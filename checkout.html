@@ -1,0 +1,220 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    header('Location: cart.php');
+    exit();
+}
+
+// Handle form submission for order
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order'])) {
+    $name = htmlspecialchars($_POST['name']);
+    $address = htmlspecialchars($_POST['address']);
+    $phone = htmlspecialchars($_POST['phone']);
+    $email = htmlspecialchars($_POST['email']);
+    $card_name = htmlspecialchars($_POST['card_name']);
+    $card_number = htmlspecialchars($_POST['card_number']);
+    $exp_date = htmlspecialchars($_POST['exp_date']);
+    $cvv = htmlspecialchars($_POST['cvv']);
+
+    if (empty($name) || empty($address) || empty($phone) || empty($email) || empty($card_name) || empty($card_number) || empty($exp_date) || empty($cvv)) {
+        $error_message = "All fields are required.";
+    } else {
+        // Database connection
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "online_pharmacy";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Calculate total
+        $total = 0;
+        foreach ($_SESSION['cart'] as $product_id => $product) {
+            $sql = "SELECT new_price FROM products WHERE id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $product_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $product_data = $result->fetch_assoc();
+            $price = $product_data['new_price'];
+            $subtotal = $price * $product['quantity'];
+            $total += $subtotal;
+        }
+
+        // Calculate discount and final total
+        $discount = 0.15 * $total; // 15% discount
+        $final_total = $total - $discount;
+
+        // Insert customer details
+        $stmt = $conn->prepare("INSERT INTO customers (name, address, phone, email) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $name, $address, $phone, $email);
+        $stmt->execute();
+        $customer_id = $stmt->insert_id;
+
+        // Insert order details
+        $stmt = $conn->prepare("INSERT INTO orders (customer_id, card_name, card_number, exp_date, cvv, total) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("issssi", $customer_id, $card_name, $card_number, $exp_date, $cvv, $final_total);
+        if ($stmt->execute()) {
+            $order_id = $stmt->insert_id;
+
+            // Insert order items
+            foreach ($_SESSION['cart'] as $product_id => $product) {
+                $price = $product['price']; // Make sure to retrieve the product price correctly
+                $subtotal = $price * $product['quantity'];
+
+                $stmt = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, subtotal) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("iiid", $order_id, $product_id, $product['quantity'], $subtotal);
+                $stmt->execute();
+            }
+
+            // Clear the cart
+            unset($_SESSION['cart']);
+            $success_message = "Order placed successfully! Your order ID is " . $order_id;
+        } else {
+            $error_message = "Error placing the order.";
+        }
+
+        $stmt->close();
+        $conn->close();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="checkout.css">
+    <style>
+        /* Add your CSS styles here or link to checkout.css */
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>Online Pharmacy</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.php">Cart</a></li>
+                    <li><a href="checkout.php">Checkout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Section -->
+    <div class="checkout-container">
+        <h2>Checkout</h2>
+        <div class="checkout-content">
+            <!-- Shipping Details -->
+            <div class="shipping-details">
+                <h3>Shipping Details</h3>
+                <form action="checkout.php" method="POST">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" required></textarea>
+
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" name="phone" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    
+                    <h3>Payment Details</h3>
+                    <label for="card-name">Name on Card:</label>
+                    <input type="text" id="card-name" name="card_name" required>
+
+                    <label for="card-number">Card Number:</label>
+                    <input type="text" id="card-number" name="card_number" required>
+
+                    <label for="exp-date">Expiry Date:</label>
+                    <input type="text" id="exp-date" name="exp_date" placeholder="MM/YY" required>
+
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" name="cvv" required>
+
+                    <button type="submit" name="order" class="checkout-button">Place Order</button>
+                </form>
+                
+                <?php if (isset($success_message)): ?>
+                    <div class="message success"><?php echo $success_message; ?></div>
+                <?php elseif (isset($error_message)): ?>
+                    <div class="message error"><?php echo $error_message; ?></div>
+                <?php endif; ?>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <?php
+                $total = 0;
+                foreach ($_SESSION['cart'] as $product_id => $product) {
+                    // Retrieve the product details
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    $dbname = "online_pharmacy";
+
+                    $conn = new mysqli($servername, $username, $password, $dbname);
+                    $sql = "SELECT name, new_price FROM products WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $product_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $product_data = $result->fetch_assoc();
+                    $product_name = $product_data['name'];
+                    $price = $product_data['new_price'];
+                    $subtotal = $price * $product['quantity'];
+                    $total += $subtotal;
+
+                    echo '<p>' . htmlspecialchars($product_name) . ' (Quantity: ' . htmlspecialchars($product['quantity']) . ') - ₹' . htmlspecialchars(number_format($subtotal, 2)) . '</p>';
+                }
+
+                $discount = 0.15 * $total; // 15% discount
+                $final_total = $total - $discount;
+                ?>
+                <p><strong>Subtotal:</strong> ₹<?php echo number_format($total, 2); ?></p>
+                <p><strong>Discount (15%):</strong> -₹<?php echo number_format($discount, 2); ?></p>
+                <p><strong>Total:</strong> ₹<?php echo number_format($final_total, 2); ?></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Details about the pharmacy, products, and services.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: contact@pharmacy.com</p>
+                <p>Phone: +1234567890</p>
+                <p>Address: 123 Pharmacy Street, City</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <a href="#"><img src="whatsapp-icon.png" alt="WhatsApp"></a>
+                <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+                <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
+                <a href="#"><img src="instagram-icon.png" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

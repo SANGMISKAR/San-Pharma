@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login_style.css">
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <img src="Images/san-pharm-logo-transparent.png" alt="PharmEasy Logo">
+                </div>
+            </div>
+        </nav>
+    </header>
+    <form action="login.php" method="post">
+    <div class="container">
+        <h2>Login</h2>
+        <div class="component">
+            <label for="Enter Name"></label>
+            <input id="en" type="text" placeholder="Enter Name" required>
+        </div>
+        <div class="component">
+            <input type="email" placeholder="abc@gamil.com" required>
+        </div>
+        <div class="component">
+            <input type="password" required placeholder="Password" >
+        </div>
+        <div class="login_button">
+             <button type="submit"><!--<a href="index.html"> -->Login</button>
+        </div>
+        <div class="alternative-login">
+            <p>or</p>
+            <button class="google-login">
+                <img src="Images/google_icon.png" alt="Google Icon"> Login with Google
+            </button>
+            <button class="microsoft-login">
+                <img src="Images/microsoft_icon.png" alt="Microsoft Icon"> Login with Microsoft
+            </button>
+        </div>
+        <div class="register-link">
+            <p>Don't have an account? <a href="register.html">Register</a></p>
+        </div>
+    </div>
+</form>
+     
+
+</body>
+</html>
+
