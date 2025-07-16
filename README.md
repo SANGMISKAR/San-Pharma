@@ -1,3 +1,4 @@
+
 # 💊 San-Pharma
 
 San-Pharma is a fully functional **online pharmacy store** developed using **HTML, PHP, and MySQL**. It allows users to browse medicines, manage their carts, place orders, and handle accounts with authentication. It also features an **Admin Dashboard** for managing products, customers, and orders.
@@ -22,16 +23,28 @@ San-Pharma is a fully functional **online pharmacy store** developed using **HTM
 - 💾 **Database**: MySQL
 - 🖥️ **Server**: Apache (XAMPP/WAMP recommended for local development)
 
+## 🔐 Admin Login
+
+Use the following credentials to log into the admin dashboard:
+
+- **Username**: `admin11`  
+- **Password**: `admin`
+
 ## 📸 Screenshots
 
-> Add your screenshots in a `screenshots/` folder and replace below.
+> All screenshots are placed in the `screenshots/` folder inside the project directory.
 
 | Description | Image |
 |-------------|-------|
-| 🏠 Home Page | ![Home Page](screenshots/home.png) |
-| 🔐 Login Page | ![Login](screenshots/login.png) |
-| 🛒 Cart Page | ![Cart](screenshots/cart.png) |
-| 📦 Admin Dashboard | ![Dashboard](screenshots/admin_dashboard.png) |
+| 🏠 **Home Page** | ![Homepage](screenshots/homepage.jpg)<br>![Homepage 2](screenshots/homepage2.jpg)<br><sub>The homepage includes banners, categories, and featured medicines. Two views are shown for full layout.</sub> |
+| 🔐 **Login Page** | ![Login](screenshots/userlogin.jpg) |
+| 📝 **Signup Page** | ![Signup](screenshots/signup.jpg) |
+| 💊 **Product Page** | ![Product Page](screenshots/productpage.jpg) |
+| 🧺 **Cart Page** | ![Cart](screenshots/cartpage.jpg) |
+| 📦 **Order Page** | ![Order](screenshots/oder.jpg) |
+| 🧠 **Health Blog** | ![Health Blog](screenshots/healthbolg.jpg) |
+| 📊 **Admin Dashboard** | ![Admin Dashboard](screenshots/admindashboard.jpg) |
+| 📋 **Order Management** | ![Order Management](screenshots/ordermanagement.jpg) |
+| 🧰 **Product Management** | ![Product Management](screenshots/productmanagement.jpg) |
 
-## 📁 Folder Structure
 
