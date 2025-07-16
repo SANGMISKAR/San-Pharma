@@ -32,19 +32,17 @@ Use the following credentials to log into the admin dashboard:
 
 ## 📸 Screenshots
 
-> All screenshots are placed in the `screenshots/` folder inside the project directory.
+> All Screenshots are placed in the `Screenshots/` folder inside the project directory.
 
 | Description | Image |
 |-------------|-------|
-| 🏠 **Home Page** | ![Homepage](screenshots/homepage.jpg)<br>![Homepage 2](screenshots/homepage2.jpg)<br><sub>The homepage includes banners, categories, and featured medicines. Two views are shown for full layout.</sub> |
-| 🔐 **Login Page** | ![Login](screenshots/userlogin.jpg) |
-| 📝 **Signup Page** | ![Signup](screenshots/signup.jpg) |
-| 💊 **Product Page** | ![Product Page](screenshots/productpage.jpg) |
-| 🧺 **Cart Page** | ![Cart](screenshots/cartpage.jpg) |
-| 📦 **Order Page** | ![Order](screenshots/oder.jpg) |
-| 🧠 **Health Blog** | ![Health Blog](screenshots/healthbolg.jpg) |
-| 📊 **Admin Dashboard** | ![Admin Dashboard](screenshots/admindashboard.jpg) |
-| 📋 **Order Management** | ![Order Management](screenshots/ordermanagement.jpg) |
-| 🧰 **Product Management** | ![Product Management](screenshots/productmanagement.jpg) |
-
-
+| 🏠 **Home Page** | ![Homepage](Screenshots/homepage.jpg)<br>![Homepage 2](Screenshots/homepage2.jpg)<br><sub>The homepage includes banners, categories, and featured medicines. Two views are shown for full layout.</sub> |
+| 🔐 **Login Page** | ![Login](Screenshots/userlogin.jpg) |
+| 📝 **Signup Page** | ![Signup](Screenshots/signup.jpg) |
+| 💊 **Product Page** | ![Product Page](Screenshots/productpage.jpg) |
+| 🧺 **Cart Page** | ![Cart](Screenshots/cartpage.jpg) |
+| 📦 **Order Page** | ![Order](Screenshots/oder.jpg) |
+| 🧠 **Health Blog** | ![Health Blog](Screenshots/healthbolg.jpg) |
+| 📊 **Admin Dashboard** | ![Admin Dashboard](Screenshots/admindashboard.jpg) |
+| 📋 **Order Management** | ![Order Management](Screenshots/ordermanagement.jpg) |
+| 🧰 **Product Management** | ![Product Management](Screenshots/productmanagement.jpg) |
